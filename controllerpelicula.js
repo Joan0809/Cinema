@@ -1,0 +1,237 @@
+var Item = require('./pelicula');
+module.exports = class _Pelicula {
+   constructor( ) {
+
+   }
+Guardar(req,res) {
+      Item.create(
+			{
+
+    NOMBRE: req.body.NOMBRE,
+    DURACIONMINUTOS: req.body.DURACIONMINUTOS,
+    GENERO: req.body.GENERO,
+    IDIOMAAUDIO: req.body.IDIOMAAUDIO,
+    IDIOMASUB: req.body.IDIOMASUB,
+    SINOPSIS: req.body.SINOPSIS,
+    CLASIFICACION: req.body.CLASIFICACION,
+    PRECIO: req.body.PRECIO,
+    HORAINICIO: req.body.HORAINICIO,
+    FECHA: req.body.FECHA,
+    MINUTOINICIO: req.body.MINUTOINICIO,
+    ASIENTOS: req.body.ASIENTOS,
+    IMAGEN: req.body.IMAGEN,
+    ESTADO: req.body.ESTADO
+            }, 
+			function(err, item) {
+				if (err)
+                    {
+					res.send(err);}
+				
+          else{
+                Item.find(function(err, item) {
+				 	if (err)
+				 		res.send(err)
+				  res.json(item);
+				});
+                
+                
+          }
+               	
+			});
+    
+    
+    
+}
+    
+ Modificar(req,res) {
+  console.log(req.body)
+		Item.update( {_id : req.body._id},
+					{$set:
+			{
+   NOMBRE: req.body.NOMBRE,
+    DURACIONMINUTOS: req.body.DURACIONMINUTOS,
+    GENERO: req.body.GENERO,
+    IDIOMAAUDIO: req.body.IDIOMAAUDIO,
+    IDIOMASUB: req.body.IDIOMASUB,
+    SINOPSIS: req.body.SINOPSIS,
+    CLASIFICACION: req.body.CLASIFICACION,
+    PRECIO: req.body.PRECIO,
+    HORAINICIO: req.body.HORAINICIO,
+    FECHA: req.body.FECHA,
+    MINUTOINICIO: req.body.MINUTOINICIO,
+    ASIENTOS: req.body.ASIENTOS,
+    IMAGEN: req.body.IMAGEN,
+    ESTADO: req.body.ESTADO
+            }}, 
+			function(err, item) {
+				if (err)
+                    {
+					res.send(err);}
+				// Obtine y devuelve todas las personas tras crear una de ellas
+          else{
+                Item.find(function(err, item) {
+				 	if (err)
+				 		res.send(err)
+				  res.json(item);
+				});
+                
+                
+          }
+               	
+			});
+    
+    
+    
+}   
+    
+    Eliminar(req,res) {
+	Item.remove({_id : req.body.id}, 
+			function(err, item) {
+				if (err)
+                    {
+					res.send(err);}
+				// Obtine y devuelve todas las personas tras crear una de ellas
+          else{
+                Item.find(function(err, item) {
+				 	if (err)
+				 		res.send(err)
+				  res.json(item);
+				});
+                
+                
+          }
+               	
+			});
+    
+    
+    
+}
+Seleccionartodos(req,res) {
+		Item.find(
+		function(err, item) {
+			if (err)
+                
+                {
+				res.send(err)
+                }else{
+                
+                
+					res.json(item); // devuelve todas las Personas en JSON	
+                    	 
+                }
+				}
+			);
+    
+    
+    
+}
+    
+    Seleccionarporfecha(req,res) {
+	Item.find({FECHA:req.body.FECHA}, function(err, item) {
+			if (err){
+				res.send(err)}
+        else{ 
+					res.json(item); // devuelve todas las Personas en JSON		
+				
+        }
+    }
+			);
+    
+    
+    
+}
+    
+    Seleccionarporid(req,res) {
+	Item.find({_id:req.body._id}, function(err, item) {
+			if (err){
+				res.send(err)}
+        else{
+            
+					res.json(item); // devuelve todas las Personas en JSON		
+				
+        }
+    
+    
+    
+    
+    
+    
+    
+    }
+			);
+    
+    
+}
+    
+    Seleccionarpornombre(req,res) {
+	Item.find({NOMBRE:req.body.NOMBRE}, function(err, item) {
+			if (err){
+				res.send(err)}
+        else{
+            
+					res.json(item); // devuelve todas las Personas en JSON		
+				
+        }
+    
+    
+    
+    
+    
+    
+    
+    }
+			);
+    
+    
+    
+}
+peliculaspormesyanno(mes,anno){
+                  
+       var objetoaenviar = this;
+                var vectordepeliculasfiltradas = [];
+  // Return a new promise.
+  return new Promise(function(resolve, reject) {
+    // Do the usual XHR stuff
+       
+      try {
+           
+               var xhr = new XMLHttpRequest();
+xhr.open('POST', 'http://localhost:8080/api/seleccionartodos');
+xhr.setRequestHeader('Content-Type', 'application/json');
+xhr.onload = function() {
+    if (xhr.status === 200) {
+        var peliculas =JSON.parse(xhr.responseText);
+       
+        
+        for(var elemento in peliculas)
+            {
+                var fechadelapelicula = new Date(peliculas[elemento].FECHA);
+                if((fechadelapelicula.getMonth()+1 == mes) && (fechadelapelicula.getFullYear() == anno))
+                    {
+                        vectordepeliculasfiltradas.push(peliculas[elemento]);
+                    }
+                    
+            }
+        
+         resolve(vectordepeliculasfiltradas);
+        
+    }
+    else
+        {
+           reject(xhr); 
+        }
+};
+xhr.send(JSON.stringify(objetoaenviar));   
+          
+          
+          
+}
+catch(err) {
+     reject(err.message);
+
+}
+    });
+    
+   
+            }
+}

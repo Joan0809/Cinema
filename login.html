@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>formulario login</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="css/Menusito.css">
+	<link rel="stylesheet" type="text/css" href="css/estiloquiz.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+
+</head>
+<body>
+		<header>
+		<div class="menu_bar">
+			<a href="#" class="bt_menu"><span class="icon-menu">
+			</span>Menu</a>
+		</div>
+		<nav>
+			<ul>
+				<li><a href="index.html"><span class="icon-facebook-square">
+				</span>Inicio</a></li>
+				<li><a href="login.html"><span class="icon-facebook-square"></span>Login</a>
+				</li>
+				<li><a href="calendario.html"><span class="icon-facebook-square"></span>calendario</a>
+				</li>
+			</ul>
+		</nav>
+	</header>
+
+
+		<div class="container-contact100">
+
+		<div class="wrap-contact100">
+			<div class="contact100-form-title" style="background-image: url(images/bg-01.jpg);">
+
+			</div>
+
+		<form class="contact100-form validate-form">
+				<div class="wrap-input100 validate-input">
+					<span class="label-input100">Nombre:</span>
+					<input class="input100" type="text" id="nombre" placeholder="Digite su nombre">
+					<span class="focus-input100"></span>
+				</div>
+
+				<div class="wrap-input100 validate-input">
+					<span class="label-input100">Clave:</span>
+					<input class="input100" type="number" id="clave" placeholder="Digite su clave">
+					<span class="focus-input100"></span>
+				</div>
+				<div class="wrap-input100 validate-input">
+					<span class="label-input100">Email:</span>
+					<input class="input100" type="email" id="email" placeholder="Digite su email">
+					<span class="focus-input100"></span>
+				</div>
+				<div class="wrap-input100 validate-input" >
+					<span class="label-input100">Imagen:</span>
+					<input class="input100" type="file" class="imagen" id="imgpelicula" ></input>
+					<span class="focus-input100"></span>
+				</div>
+
+        		<div class="wrap-input100 validate-input">
+          		<span class="label-input100">Estado:</span>
+        		<select id="estado">
+          		<option value="1">Activa</option>
+          		<option value="0">Inactiva</option>
+          	</select>
+      </div>
+      				<div class="container-contact100-form-btn">
+					<button type="button" class="contact100-form-btn" onclick="botonguardarclick()">
+						<span>
+							Guardar
+							<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+						</span>
+					</button>
+					</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+	<script type="text/javascript" src="claseadministradorfe.js"></script>
+      <script src="jquery/jquery-3.2.1.min.js"></script>
+      <script type="text/javascript">
+  			
+
+  			//Esto hace que la imagen se guarde con imagen base 64 
+             let imagenenbase64 = "";
+      $("#imgpelicula").change(function(){
+       readURL(this);
+ });
+    
+        function readURL(input) {
+
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+
+                        reader.onload = function (e) {
+
+                            imagenenbase64=e.target.result;
+
+                        
+                          
+                        }
+
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
+
+
+
+      	function botonguardarclick()
+            {   
+                let admactual = new _adm('0',
+        document.getElementById("nombre").value,
+              document.getElementById("clave").value,
+              document.getElementById("email").value,
+              document.getElementById("estado").value,
+      imagenenbase64
+        
+        );
+        admactual.Guardar(admactual).then(function(response) {
+  console.log("Success!", response);
+            alert("Guardado con exito");
+
+}, function(error) {
+  console.error("Failed!", error);
+             alert("Error " + error);
+             
+});
+      }
+
+      </script>
+</body>
+</html>
